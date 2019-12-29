@@ -3,7 +3,11 @@
 <head>
   <meta charset="utf-8">
   <title>ReactiveCalculator</title>
-  <base href="/">
+  <!-- github pages를 이용할 때 아래의 base 태그를 사용하면 다른 파일을 가져올 때 문제가 된다. -->
+  <!-- https://thatseeyou.github.io/styles.09e2c710755c8867a460.css 같이 요청을 해서 문제가 된다. -->
+  <!-- https://thatseeyou.github.io/reactive-calculator/dist/reactive-calculator/styles.09e2c710755c8867a460.css 처럼 요청해야 한다. -->
+  <!-- Routing를 이용하지 않는 간단한 앱이기 때문에 base가 필요없다. -->
+  <!-- <base href="/"> -->
 
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="icon" type="image/x-icon" href="favicon.ico">
