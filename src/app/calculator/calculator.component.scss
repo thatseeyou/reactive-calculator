@@ -1,0 +1,58 @@
+#calculator {
+  float: left;
+}
+#diagram {
+  float: left;
+}
+#diagram img {
+  width: 600px;
+}
+.calc-container {
+  display: flex;
+  flex-flow: row wrap;
+  width: 277px;
+}
+.calc-display {
+  display: flex;
+  min-height: 65px;
+  margin-bottom: 4px;
+  border: 1px solid darkred;
+  flex: 100%;
+}
+.calc-active-display {
+  border: 2px solid darkred !important;
+}
+.calc-first {
+  flex: 1;
+}
+.calc-operator {
+  flex: 10%;
+}
+.calc-second {
+  flex: 90%;
+}
+.calc-first, .calc-second, .calc-operator {
+  line-height: 65px;
+  font-size: 30px;
+  text-align: right;
+}
+.calc-keypad {
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: space-between;
+  align-content: space-between;
+  height: 340px;
+}
+.calc-button {
+  flex: 0 0 auto;
+  box-sizing: border-box;
+  line-height: 65px;
+  text-align: center;
+  font-size: 30px;
+  border: 1px solid darkred;
+  width: 23.38%;
+  height: 19.06%;
+}
+button.calc-double {
+  width: 48.92%;
+}

@@ -1,0 +1,12 @@
+<div class="calc-container">
+  <div class="calc-display" [class.calc-active-display]="isActiveFirst">
+      <div class="calc-first">{{ firstOperand }}</div>
+  </div>
+  <div class="calc-display" [class.calc-active-display]="!isActiveFirst">
+      <div class="calc-operator">{{ operator }}</div>
+      <div class="calc-second">{{ secondOperand }} </div>
+  </div>
+  <div #keypad class="calc-keypad">
+    <button *ngFor="let buttonConfig of buttonsConfig" class="calc-button" [class.calc-double]="buttonConfig['2'] === '0'">{{ buttonConfig['2'] }}</button>
+  </div>
+</div>

@@ -1,0 +1,131 @@
+digraph calculator {
+    node [shape=box]
+
+    subgraph cluster_buttonsObservable {
+        label="buttonsObservable"
+        ordering=in
+
+        subgraph cluster_buttonObservables {
+            label="buttonsOb"
+
+            "buttonObservables.fromEvent" [label="fromEvent('click')" shape="oval"]
+            "buttonObservables.mapTo" [label="mapTo"]
+
+            "buttonObservables.fromEvent" -> "buttonObservables.mapTo" 
+        }
+
+        "buttonsObservable.merge" [label="merge" shape="oval"]
+        "buttonsObservable.mergeAll" [label="mergeAll"]
+        "buttonsObservable" [label="share" shape="doubleoctagon"]
+
+        "buttonObservables.mapTo" -> "buttonsObservable.merge" [style=dashed]
+        "buttonsObservable.merge" -> "buttonsObservable.mergeAll"
+        "buttonsObservable.mergeAll" -> "buttonsObservable"
+    }
+
+    subgraph cluster_operandObservable {
+        label="operandOpservable"
+        ordering=in
+
+        subgraph resetFnOb {
+            "resetFnOb.filter" [label="filter(+,-,×,÷,=)"]
+            "resetFnOb" [label="mapTo"]
+
+            buttonsObservable -> "resetFnOb.filter"
+            "resetFnOb.filter" -> resetFnOb
+        }
+
+        subgraph clearFnOb {
+            "clearFnOb.filter" [label="filter(C)"]
+            clearFnOb [label="mapTo"]
+
+            buttonsObservable -> "clearFnOb.filter"
+            "clearFnOb.filter" -> clearFnOb
+        }
+
+        subgraph percentFnOb {
+            "percentFnOb.filter" [label="filter(%)"]
+            percentFnOb [label="mapTo"]
+
+            buttonsObservable -> "percentFnOb.filter"
+            "percentFnOb.filter" -> percentFnOb
+        }
+
+        subgraph pointFnOb {
+            "pointFnOb.filter" [label="filter(.)"]
+            pointFnOb [label="mapTo"]
+
+            buttonsObservable -> "pointFnOb.filter"
+            "pointFnOb.filter" -> pointFnOb
+        }
+
+        subgraph signFnOb {
+            "signFnOb.filter" [label="filter(±)"]
+            signFnOb [label="mapTo"]
+
+            buttonsObservable -> "signFnOb.filter"
+            "signFnOb.filter" -> signFnOb
+        }
+
+        subgraph numberFnOb {
+            "numberFnOb.filter" [label="filter(0-9)"]
+            numberFnOb [label="map"]
+
+            buttonsObservable -> "numberFnOb.filter"
+            "numberFnOb.filter" -> numberFnOb
+        }
+
+        "operandObservable.merge" [label="merge" shape="oval"]
+        "operandObservable.mergeMap" [label="mergeMap\nmerge with timer-mapTo-takeUntil"]
+        "operandObservable.scan" [label="scan\n-inputMode\l-isMinus\l-valueString\l-propagate\l" shape=cylinder]
+        "operandObservable.do" [label="do"]
+        operandObservable [label="mergeMap"]
+
+        {resetFnOb, clearFnOb, percentFnOb, pointFnOb, signFnOb, numberFnOb}
+        -> "operandObservable.merge" [style=dashed]
+        "operandObservable.merge"->"operandObservable.mergeMap"
+        "operandObservable.mergeMap"->"operandObservable.scan"
+        "operandObservable.scan"->"operandObservable.do"
+        "operandObservable.do"->operandObservable
+    }
+
+    subgraph cluster_subscribe {
+        ordering=in
+
+        subgraph operand {
+            operand [label="map"]
+
+            operandObservable -> operand
+        }
+
+        subgraph enter {
+            "enter.filter" [label="filter(=)"]
+            enter [label="map"]
+
+            buttonsObservable -> "enter.filter" -> enter
+        }
+
+        subgraph clear {
+            "clear.filter" [label="filter(C)"]
+            clear [label="map"]
+
+            buttonsObservable -> "clear.filter" -> clear
+        }
+
+        subgraph operator {
+            "operator.filter" [label="filter(+,-,×,÷)"]
+            operator [label="map"]
+
+            buttonsObservable -> "operator.filter" -> operator
+        }
+
+        "subscribe.scan" [label="scan\n-step\l-first\l-second\l-operator\l-skipOperand\l" shape="cylinder"]
+        "subscribe.merge" [label="merge" shape="oval"]
+        "subscribe.mergeMap" [label="mergeMap\nmerge with timer-mapTo-takeUntil"]
+        "subscribe.startWith" [label="startWith"]
+        "subscribe.subscribe" [label="subscribe" shape="oval"]
+
+        {clear operand enter operator}->"subscribe.merge" [style=dashed]
+        "subscribe.merge"->"subscribe.mergeMap"->"subscribe.scan"->"subscribe.startWith"->"subscribe.subscribe"
+    }
+}
