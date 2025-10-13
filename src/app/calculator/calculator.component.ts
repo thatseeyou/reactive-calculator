@@ -13,6 +13,7 @@ import {
 } from 'rxjs/operators';
 import { Decimal } from 'decimal.js';
 import { Component, OnInit, ViewChild, ElementRef, AfterViewInit } from '@angular/core';
+import { CommonModule } from '@angular/common';
 
 /**
  * 소수점이 존재하는 경우에 정수 부분만 ,를 적용한다.
@@ -74,7 +75,9 @@ const enum Step {
 @Component({
   selector: 'app-calculator',
   templateUrl: './calculator.component.html',
-  styleUrls: ['./calculator.component.scss']
+  styleUrls: ['./calculator.component.scss'],
+  standalone: true,
+  imports: [CommonModule]
 })
 export class CalculatorComponent implements OnInit, AfterViewInit {
   private readonly timeout = 5000;
