@@ -61,18 +61,18 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "browserTarget": "reactive-calculator:build"
+            "buildTarget": "reactive-calculator:build"
           },
           "configurations": {
             "production": {
-              "browserTarget": "reactive-calculator:build:production"
+              "buildTarget": "reactive-calculator:build:production"
             }
           }
         },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "reactive-calculator:build"
+            "buildTarget": "reactive-calculator:build"
           }
         },
         "test": {
@@ -118,6 +118,5 @@
           }
         }
       }
-    }},
-  "defaultProject": "reactive-calculator"
+    }}
 }
